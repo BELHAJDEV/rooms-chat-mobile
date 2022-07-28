@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "chafik_belhaj",
     "name": "signal-clone",
     "slug": "signal-clone",
     "version": "1.0.0",
@@ -31,5 +32,6 @@
     },
     "description": "This app allows multiple users to join or craete a rooms chat and send messages to each others",
     "githubUrl": "https://github.com/BELHAJDEV/rooms-chat-mobile"
+  
   }
 }

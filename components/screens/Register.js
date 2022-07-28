@@ -8,7 +8,8 @@ import { createUserWithEmailAndPassword, updateProfile,onAuthStateChanged } from
 
 import auth from '../../Firebase';
 
-const Register = ({navigation}) => {
+const Register = () => {
+
     const [email,setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
@@ -18,15 +19,20 @@ const Register = ({navigation}) => {
         
         createUserWithEmailAndPassword(auth, email, password)
         .then((authUser) => {
-            updateProfile(authUser?.user ,{
+            updateProfile(authUser.user ,{
                 displayName : username
             });
             // console.log(authUser?.user)
+        
+
             
         })
-        .catch(error => Alert.alert(error));
+        .catch(error => Alert.alert(error.message));
+
+        
     }
 
+    
     
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>

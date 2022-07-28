@@ -39,10 +39,10 @@ const ChatScreen = ({ route, navigation }) => {
         const updateTimestamp = await updateDoc(docRef, {
             timestamp: serverTimestamp()
         });
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with ID: ", docRef.id);
         setInput('')
       } catch (e) {
-        console.error("Error adding document: ", e);
+        // console.error("Error adding document: ", e);
       }
   };
   useLayoutEffect(() => {

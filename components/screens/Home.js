@@ -15,10 +15,11 @@ import auth, { db } from "../../Firebase";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { collection, addDoc, getDocs, query } from "firebase/firestore";
+// import {Avatar } from "@rneui/themed";
 
 const Home = ({ navigation }) => {
   const [chats, setChats] = useState([]);
-  const [username, setUsername] = useState("U");
+  const [username, setUsername] = useState();
 
 
   const getChats = async () => {
@@ -48,18 +49,20 @@ const Home = ({ navigation }) => {
         createrId: auth?.currentUser?.uid,
         createrName: auth?.currentUser?.displayName,
       });
-      console.log("Document written with ID: ", docRef.id);
+      // console.log("Document written with ID: ", docRef.id);
     } catch (e) {
-      console.error("Error adding document: ", e);
+      // console.error("Error adding document: ", e);
+      Alert.alert(e);
     }
   };
 
   useLayoutEffect(() => {
-    if (auth.currentUser.displayName !== null) {
-      setUsername(auth.currentUser.displayName);
-    }
+    let isMounted = true;
+
+    if(isMounted){
+
     navigation.setOptions({
-      headerTitle: "Signal",
+      headerTitle: "Rooms",
       headerStyle: {
         backgroundColor: "#fff",
       },
@@ -76,8 +79,8 @@ const Home = ({ navigation }) => {
           >
             <EvilIcons name="pencil" size={30} color="black" />
           </TouchableOpacity>
-
-          <TouchableOpacity style={styles.avatar}>
+            {auth?.currentUser?.displayName !== null ? (
+              <TouchableOpacity style={styles.avatar}>
             <Text
               style={{
                 color: "white",
@@ -85,10 +88,13 @@ const Home = ({ navigation }) => {
                 fontWeight: "bold",
               }}
             >
-              {username[0]}
+            
+              {auth?.currentUser?.displayName[0]}
               {/* {auth.currentUser.displayName !== '' ? auth?.currentUser?.displayName[0] : ''} */}
             </Text>
           </TouchableOpacity>
+            ): null} 
+          
         </View>
       ),
       headerLeft: () => (
@@ -97,7 +103,14 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation,username]);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigation]);
+
+  
 
   return (
     <SafeAreaView style={styles.container}>

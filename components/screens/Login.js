@@ -36,6 +36,7 @@ const Login = ({navigation}) => {
     useEffect(()=> {
         onAuthStateChanged(auth, (user) => {
             if (user) {
+              console.log(user.displayName)
               navigation.replace('Home')
             }
           });

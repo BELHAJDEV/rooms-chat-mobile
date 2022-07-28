@@ -29,6 +29,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": ""
+    "description": "This app allows multiple users to join or craete a rooms chat and send messages to each others",
+    "githubUrl": "https://github.com/BELHAJDEV/rooms-chat-mobile"
   }
 }

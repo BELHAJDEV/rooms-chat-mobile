@@ -18,6 +18,8 @@ import { collection, addDoc, getDocs, query } from "firebase/firestore";
 
 const Home = ({ navigation }) => {
   const [chats, setChats] = useState([]);
+  const [username, setUsername] = useState("U");
+
 
   const getChats = async () => {
     getDocs(collection(db, "Chats")).then((snapshot) =>
@@ -52,9 +54,10 @@ const Home = ({ navigation }) => {
     }
   };
 
-  
   useLayoutEffect(() => {
-    
+    if (auth.currentUser.displayName !== null) {
+      setUsername(auth.currentUser.displayName);
+    }
     navigation.setOptions({
       headerTitle: "Signal",
       headerStyle: {
@@ -74,7 +77,7 @@ const Home = ({ navigation }) => {
             <EvilIcons name="pencil" size={30} color="black" />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.avatar} >
+          <TouchableOpacity style={styles.avatar}>
             <Text
               style={{
                 color: "white",
@@ -82,7 +85,8 @@ const Home = ({ navigation }) => {
                 fontWeight: "bold",
               }}
             >
-              {auth?.currentUser?.displayName[0]}
+              {username[0]}
+              {/* {auth.currentUser.displayName !== '' ? auth?.currentUser?.displayName[0] : ''} */}
             </Text>
           </TouchableOpacity>
         </View>
@@ -93,15 +97,22 @@ const Home = ({ navigation }) => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, [navigation,username]);
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
       <ScrollView>
+        
         {chats.map(({ id, data: { chatName } }) => (
-            <TouchableOpacity key={id} onPress={()=> navigation.navigate('Chat',{chatId : id , chatName : chatName})} activeOpacity={0.5}>
-                <CustomListItem  id={id} chatName={chatName}/>
+          <TouchableOpacity
+            key={id}
+            onPress={() =>
+              navigation.navigate("Chat", { chatId: id, chatName: chatName })
+            }
+            activeOpacity={0.5}
+          >
+            <CustomListItem id={id} chatName={chatName} />
           </TouchableOpacity>
         ))}
       </ScrollView>

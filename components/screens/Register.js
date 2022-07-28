@@ -1,9 +1,9 @@
-import { useState,useLayoutEffect } from 'react';
+import { useState,useLayoutEffect, useEffect } from 'react';
 import { StyleSheet,View, Text, KeyboardAvoidingView } from 'react-native'
 import { StatusBar } from "expo-status-bar";
 import { Button, Input } from '@rneui/base';
 
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile,onAuthStateChanged } from "firebase/auth";
 
 
 import auth from '../../Firebase';
@@ -13,27 +13,21 @@ const Register = ({navigation}) => {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
 
-    function Navigate(){
-        navigation.navigate('Register');
-    }
-
+    
     function Register(){
         
         createUserWithEmailAndPassword(auth, email, password)
         .then((authUser) => {
-            updateProfile(auth.currentUser ,{
+            updateProfile(authUser?.user ,{
                 displayName : username
-            })
+            });
+            // console.log(authUser?.user)
+            
         })
-        .catch(error => alert(error.message));
+        .catch(error => Alert.alert(error));
     }
 
-    useLayoutEffect(()=> {
-        navigation.setOptions({
-            // headerBackTitle : 'ABC'
-        })
-    },[navigation]);
-
+    
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
         <StatusBar style="light" />

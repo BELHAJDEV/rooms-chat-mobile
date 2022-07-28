@@ -20,13 +20,15 @@ const Login = ({navigation}) => {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
-            console.log(userCredential.user.uid)
+            // console.log(userCredential.user.uid)
             // ...
+            navigation.replace('Home')
+
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorMessage)
+            // console.log(errorMessage)
             Alert.alert(errorMessage)
         });
     }
@@ -35,8 +37,6 @@ const Login = ({navigation}) => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
               navigation.replace('Home')
-            } else {
-              
             }
           });
     },[])
